@@ -1,0 +1,77 @@
+<html>
+    
+    <link rel="stylesheet" href="css.css">
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js" ></script>
+    <script>
+        root = "https://jsonplaceholder.typicode.com";
+        page = 0;
+        
+        function getJSON(){
+            $.ajax({
+              url: root + '/posts/' + (page + 1),
+              method: 'GET'
+            }).then(function(data) {
+              console.log(data);
+            });
+        }
+        
+        function inc(){
+            if(page < 500){
+                page = page + 1;
+            }
+            else{
+                alert("last page nibba");
+            }
+        }
+        
+        function dec(){
+            if(page > 1){
+                page = page - 1;
+            }
+            else{
+                alert("yes");
+            }
+        }
+        
+        function getPage(){
+            return page;
+        }
+        
+    </script>
+    
+    <head>
+    
+    
+    </head>
+    
+    <body>
+        <div class = "top">
+            <button onclick = "location.href = 'main.html';" class = "buttons"> home </button>
+            <button onclick = "inc()" class = "buttons"><</button>
+            <p class = "buttons">b
+                <script>
+                    getPage();
+                </script>
+            </p>
+            <button onclick = "inc()" class = "buttons">></button>
+        
+        </div>
+        
+        <div class = "outerDiv">
+            <div class = "innerDiv">
+            
+            
+            </div>
+        
+        
+        
+        </div>
+    
+    
+    
+    
+    </body>
+    
+    
+    
+</html>
