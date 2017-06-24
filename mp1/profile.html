@@ -1,11 +1,249 @@
 <html>
+    <style>
+        .mainDiv{
+            display:flex;
+            flex-direction: column;
+            height:95%;
+            width:95%;
+            margin:5px;
+            background-color: aliceblue;
+            padding: 10px;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+        .profile{
+            display:flex;
+            flex-direction: column;
+            height:30%;
+            width:100%;
+            background-color: antiquewhite;
+            margin-top: 10px;
+            flex-shrink: 0;
+        }
+        .posts{
+            height:auto;
+            width:auto;
+            background-color: antiquewhite;
+            margin-top: 10px;
+            padding:10px;
+            flex-shrink: 0;
+        }
+        .albums{
+            height:auto;
+            width:100%;
+            background-color: antiquewhite;
+            margin-top: 10px;
+            flex-shrink: 0;
+        }
+        
+        .address{
+            
+        }
+        .name{
+            
+        }
+        .bs{
+            
+        }
+        .catchPhrase{
+            
+        }
+        .companyName{
+            
+        }
+        .email{
+            
+        }
+        .id{
+            
+        }
+        .name{
+            
+        }
+        .phone{
+            
+        }
+        .username{
+            
+        }
+        .website{
+            
+        }
+        .post{
+            display:flex;
+            flex-direction: column;
+            flex:auto;
+            background-color: bisque;
+            height:auto;
+            flex-shrink: 0;
+            padding: 2px;
+            margin: 5px;
+        }
+        .title{
+            font-size:20px;
+        }
+        .body{
+            font-size:15px;
+        }
+        .showAll{
+            margin: 5px;
+        }
+        #postButton{
+            border:none;
+            background:none;
+            color:blue;
+            float:right;
+        }
+        #albumButton{
+            border:none;
+            background:none;
+            color:blue;
+            float:right;
+        }
+        .album{
+            height:auto;
+            width:auto;
+            background-color: antiquewhite;
+            margin-top: 10px;
+            padding:10px;
+        }
+        .albumId{
+            visibility: hidden;
+        }
+        .albumTitle{
+            color:blue;
+            font-size: 20px;
+        }
+        
+    </style>
+    
     
     <link rel="stylesheet" href="css.css">
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js" ></script>
     <script>
         var root = "https://jsonplaceholder.typicode.com";
+        var userId = -1;
+        var allPosts = false;
+        var allAlbums = false;
+        $(document).ready(function(){
+            var query = window.location.search.substring(1);
+            userId = query.split("=")[1];
+            
+            $(document).ready(function(){
+                if(userId!=-1){
+                    init();
+                }
+            })
+            
+            function init(){
+                addProfile();
+                
+                $.get(root + "/posts" + "?userId=" + userId, function(obj){
+                    var jason = obj[obj.length-1];
+                    $(".title").html(jason.title);
+                    $(".body").html(jason.body);
+                });
+                $.get(root + "/albums" + "?userId=" + userId, function(obj){
+                    var jason = obj[obj.length-1];
+                    $(".albumTitle").html(jason.title);
+                    $(".albumId").html(jason.id);
+                });
+            }
+            function addProfile(){
+                $.get(root + "/users" + "?id=" + userId, function(obj){
+                    var jason = obj[0];
+                    var add = jason.address.city + ", " + jason.address.street + ", " + jason.address.suite + ", " + jason.address.zipcode;
+                    $(".username").html(jason.username);
+                    $(".name").html(jason.name);
+                    $(".phone").html(jason.phone);
+                    $(".email").html(jason.email);
+                    $(".website").html(jason.website);
+                    $(".companyName").html(jason.company.name);
+                    $(".catchPhrase").html(jason.company.catchPhrase);
+                    $(".bs").html(jason.company.bs);
+                    $(".address").html(add);
+                });
+            }
+            function showAllPosts(){
+                console.log("pres");
+                $.get(root + "/posts" + "?userId=" + userId, function(obj){
+                    for(var i = obj.length - 2; i >= 0; i--){
+                        
+                        allPosts = true;
+                        
+                        var jason = obj[i];
+                        var newPost = $("<div>");
+                        newPost.addClass("post");
+
+                        var title = $("<div>");
+                        title.addClass("title");
+
+                        var body = $("<div>");
+                        body.addClass("body");
+
+                        title.html(jason.title);
+                        body.html(jason.body);
+
+                        newPost.append(title);
+                        newPost.append(body);
+
+                        $(".posts").append(newPost);
+                    }
+                });
+            }
+            
+            function showAllAlbums(obj){
+                allAlbums = true;
+                $.get(root + "/albums" + "?userId=" + userId, function(obj){
+                    for(var i = obj.length - 2; i >= 0; i--){
+                        var jason = obj[i];
+                        
+                        var newAlbum = $("<div>");
+                        newAlbum.addClass("album");
+                        
+                        var newTitle = $("<div>");
+                        newTitle.addClass("albumTitle");
+                        
+                        var newId = $("<div>");
+                        newId.addClass("albumId");
+                        
+                        newTitle.html(jason.title);
+                        newId.html(jason.id);
+                        
+                        newAlbum.append(newTitle);
+                        newAlbum.append(newId);
+                        
+                        $(".albums").append(newAlbum);
+                        
+                    }
+                    
+                });
+                
+            }
+            $("#postButton").click(function(){
+                if(!allPosts){
+                    showAllPosts();
+                }else{
+                    alert("Already showing all posts by this user!");
+                }
+            });
+            
+            $("#albumButton").click(function(){
+                if(!allAlbums){
+                    showAllAlbums();
+                }else{
+                    alert("Already showing all albums by this user!");
+                }
+            });
+        }); 
     
-    
+            
+        $(document).on('click', ".albumTitle", function(){
+            var obj = $(this).parent().find(".albumId").text();
+            window.open("album.html?id=" + obj);
+        });
+        
+        
     </script>
     
     <head>
@@ -14,10 +252,41 @@
     </head>
     
     <body>
-        <button onclick = "location.href = 'main.html';" class = "buttons"> home </button>
-    
-    
-    
+    <div class = "mainDiv">
+        <div class = "profile">
+            <div class = "username"></div>
+            <div class = "name"></div>
+            <div class = "phone"></div>
+            <div class = "email"></div>
+            <div class = "website"></div>
+            <div class = "companyName"></div>
+            <div class = "catchPhrase"></div>
+            <div class = "bs"></div>
+            <div class = "address"></div>
+            
+        </div>
+        <div class = "posts">
+            RECENT POSTS
+            <div class = "post">
+                <div class = "title"></div>
+                <div class = "body"></div>
+            </div>
+        </div>
+        <div class = "showAll">
+            <button id = "postButton">View All</button>
+        </div>
+        <div class = "albums">
+            RECENT ALBUMS
+            <div class = "album">
+                <div class = "albumTitle"></div>
+                <div class = "albumId"></div>
+            </div>
+        
+        </div>
+        <div class = "showAll">
+            <button id = "albumButton">View All</button>
+        </div>
+    </div>
     
     
     </body>
