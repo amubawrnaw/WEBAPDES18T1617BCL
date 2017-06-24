@@ -1,75 +1,171 @@
 <html>
     
-    <link rel="stylesheet" href="css.css">
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js" ></script>
-    <script>
-        root = "https://jsonplaceholder.typicode.com";
-        page = 0;
-        
-        function getJSON(){
-            $.ajax({
-              url: root + '/posts/' + (page + 1),
-              method: 'GET'
-            }).then(function(data) {
-              console.log(data);
-            });
+    <style>
+        #bigDiv{
+            flex:auto;
+            display:flex;
+            flex-direction: column;
+            background-color: aquamarine;
+            position:relative;
+            width:95%;
+            height:90%;
+            overflow-y:auto;
+            padding-left: 5px;
+            padding-right: 5px;
+            padding-top: 2.5px;
+            padding-bottom: 2.5px;
+            flex-grow: 5px;
+            
+        }
+        .mainDiv{
+            display:flex;
+            flex-direction: column;
+            height:100%;
+            width:100%;
+            margin:5px;
         }
         
-        function inc(){
-            if(page < 500){
-                page = page + 1;
-            }
-            else{
-                alert("last page nibba");
-            }
+        .body{
+            font-size:15px;
         }
-        
-        function dec(){
-            if(page > 1){
-                page = page - 1;
-            }
-            else{
-                alert("yes");
-            }
+        .id{
+            visibility: hidden;
         }
-        
-        function getPage(){
-            return page;
+        .title{
+            font-size:20px;
         }
-        
-    </script>
+        .userId{
+            visibility: hidden;
+            
+        }
+        .userName{
+            font-size:13px;
+            color:blue;
+        }
+        .post{
+            display:flex;
+            flex-direction: column;
+            flex:auto;
+            background-color: beige;
+            height:auto;
+            flex-shrink: 0;
+            margin-top:2.5px;
+            margin-bottom: 2.5px;
+        }
+    
+    </style>
     
     <head>
+    <script
+    src="http://code.jquery.com/jquery-latest.min.js"></script>
     
-    
+        
+    <script>
+    var path = "https://jsonplaceholder.typicode.com/posts";
+    var page = 0;
+    $.get("https://jsonplaceholder.typicode.com/posts",function(obj){
+        page = obj.length -1;
+        console.log("page set to obj length: " + page);
+    });
+        
+        
+    $(document).ready(function(){
+        var query = window.location.search.substring(1);
+        init();
+        function init(){
+            $.get(path,function(obj){
+                addPosts(obj, 10);
+            });
+        }
+        function getUser(id, obj2){
+            $.get("https://jsonplaceholder.typicode.com/users", function(obj){
+                for(var i = 0 ; i < obj.length ; i ++){
+                    if(obj[i].id == id){
+                        obj2.html(obj[i].name);
+                    }
+                }
+            });
+        }
+        function addPosts(obj, count){
+            var morePosts = false;
+            for(var i = page ; i > page - count && i >= 0 ; i--){
+                morePosts = true;
+                console.log("showing post: " + i);
+                var newPost = $("<div>");
+                newPost.addClass("post");
+               
+                var title = $("<div>");
+                title.addClass("title");
+                
+                var body = $("<div>");
+                body.addClass("body");
+                
+                var id = $("<div>");
+                id.addClass("id");
+                
+                var userId = $("<div>");
+                userId.addClass("userId");
+                
+                var userName = $("<div>");
+                userName.addClass("userName");
+                
+                
+                var jason = obj[i];
+                
+                title.html(jason.title);
+                body.html(jason.body);
+                id.html(jason.id);
+                userId.html(jason.userId);
+                
+                getUser(jason.userId, userName);
+                
+                
+                newPost.append(title);
+                newPost.append(userName);
+                newPost.append(body);
+                newPost.append(id);
+                newPost.append(userId);
+                
+                $("#bigDiv").append(newPost);
+            }
+            if(!morePosts){
+                alert("No more posts to show!");
+            }
+            page -= count;
+        }
+        
+        $("#morePosts").click(function(){
+            $.get(path,function(obj){
+                addPosts(obj, 10);
+            });
+        });
+        
+        
+    });
+        
+    $(document).on('click', ".userName", function() {
+        var obj = $(this).parent().find(".userId").text();
+        window.open("profile.html?userId=" + obj);
+        
+        
+    });
+        
+    </script>
     </head>
     
     <body>
-        <div class = "top">
-            <button onclick = "location.href = 'main.html';" class = "buttons"> home </button>
-            <button onclick = "inc()" class = "buttons"><</button>
-            <p class = "buttons">b
-                <script>
-                    getPage();
-                </script>
-            </p>
-            <button onclick = "inc()" class = "buttons">></button>
-        
-        </div>
-        
-        <div class = "outerDiv">
-            <div class = "innerDiv">
-            
+        <div class = "mainDiv">
+            <div id = "bigDiv">
+
+
+            </div>
+            <div>
+                <button id = "morePosts">Load More Posts</button>
             
             </div>
-        
-        
-        
         </div>
-    
-    
-    
-    
+        
+        
     </body>
     
     
