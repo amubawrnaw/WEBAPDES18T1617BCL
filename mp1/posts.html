@@ -78,12 +78,8 @@
             });
         }
         function getUser(id, obj2){
-            $.get("https://jsonplaceholder.typicode.com/users", function(obj){
-                for(var i = 0 ; i < obj.length ; i ++){
-                    if(obj[i].id == id){
-                        obj2.html(obj[i].name);
-                    }
-                }
+            $.get("https://jsonplaceholder.typicode.com/users?id="+id, function(obj){
+                obj2.html(obj[0].name);
             });
         }
         function addPosts(obj, count){
@@ -146,8 +142,6 @@
     $(document).on('click', ".userName", function() {
         var obj = $(this).parent().find(".userId").text();
         window.open("profile.html?userId=" + obj);
-        
-        
     });
         
     </script>
