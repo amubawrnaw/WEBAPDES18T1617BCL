@@ -1,12 +1,195 @@
 <html>
+    <style>
+        .mainDiv{
+            display:flex;
+            flex-direction: column;
+            height:95%;
+            width:95%;
+            margin:5px;
+            background-color: aliceblue;
+            padding: 10px;
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+        .container{
+            height:auto;
+            width:auto;
+            background-color: antiquewhite;
+            margin-top: 10px;
+            padding:10px;
+            flex-shrink: 0;
+        }
+        .innerDiv{
+            display:flex;
+            flex-direction: column;
+            flex:auto;
+            background-color: bisque;
+            height:auto;
+            flex-shrink: 0;
+            padding: 2px;
+            margin: 5px;
+        }
+        .thumbnailContainer{
+            width:auto;
+            height: auto;
+        }
+        .thumbnail{
+            
+        }
+        .url{
+            visibility: hidden;
+        }
+        .id{
+            visibility: hidden;
+        }
+        
+        
+        .photoContainer{
+            display:flex;
+            flex-direction: column;
+            flex:auto;
+            background-color: azure;
+            height:auto;
+            flex-shrink: 0;
+            padding: 2px;
+            margin: 5px;
+        }
+        .userName{
+            color:blue;
+        }
+        .fullImageContainer{
+            width:auto;
+            height: auto;
+        }
+        .fullImage{
+            
+        }
+        
+    
+    
+    
+    </style>
+    
+    
     
     <link rel="stylesheet" href="css.css">
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js" ></script>
     <script>
+        var albumId = -1;
+        var albumTitle = "";
+        var userId;
+        
+        
+        
         var root = "https://jsonplaceholder.typicode.com";
-         var query = window.location.search.substring(1);
-         alert(query);
+        var query = window.location.search.substring(1);
+        
+        albumId = query.split("?")[0];
+        albumId = albumId.split("=")[1];
+        
+        $.get(root + "/albums?id="+albumId, setUserId);
+        
+        albumTitle = query.split("?")[1];
+        albumTitle = albumTitle.split("=")[1];
+        
+        albumTitle = decodeURI(albumTitle);
     
+        $(document).ready(function(){
+            $.get(root + "/photos?albumId=" + albumId, function(obj){
+                
+                for(var i = obj.length - 1 ; i >=0 ; i--){
+                    var jason = obj[i];
+                    
+                    var newImage = $("<div>");
+                    newImage.addClass("innerDiv");
+                    
+                    var thumbnail = $("<div>");
+                    thumbnail.addClass("thumbnailContainer");
+                    
+                    var url = $("<div>");
+                    url.addClass("url");
+                    
+                    var id = $("<div>");
+                    id.addClass("id");
+                    
+                    thumbnail.append($("<img src = '" + jason.thumbnailUrl + "' class = 'thumbnail'>"));
+                    
+                    url.html(jason.url);
+                    
+                    id.html(jason.id);
+                    
+                    
+                    newImage.append(thumbnail);
+                    newImage.append(url);
+                    newImage.append(id);
+                    
+                    $(".container").append(newImage);
+                }
+            });
+        });
+        
+        
+        $(document).on('click', '.thumbnail', function(){
+            var imgId = $(this).parent().parent().find(".id").text();
+            var $parent = $(this).parent().parent();
+            
+            //if full image not yet shown, show it
+            if($parent.children().length == 3){
+                addPhoto($parent, imgId);
+            }else{//else, hide the image
+                $parent.children().last().remove();
+            }
+            
+        });
+        
+        $(document).on('click', '.userName', function(){
+            window.open("profile.html?userId=" + userId);
+        });
+        
+        function setUserId(obj){
+            userId = obj[0].userId;
+            console.log(userId);
+        }
+        
+        //stolened've from posts.html
+        function getUser(id, obj2){
+            $.get("https://jsonplaceholder.typicode.com/users?id="+id, function(obj){
+                obj2.html(obj[0].name);
+            });
+        }
+        
+        function addPhoto($parent, id){
+            $.get(root + "/photos?id=" + id, function(obj){
+                var jason = obj[0];
+                
+                var newImage = $("<div>");
+                newImage.addClass("photoContainer");
+                
+                var username = $("<div>");
+                username.addClass("userName");
+                
+                var container = $("<div>");
+                container.addClass("fullImageContainer");
+                
+                container.append($("<img src = '" + jason.url + "' class = 'fullImage'>"));
+                
+                getUser(userId, username);
+                
+                newImage.append(container);
+                newImage.append(username);
+                
+                $parent.append(newImage);
+            });
+            
+            
+            
+            
+            
+        }
+        
+        
+        
+        
     </script>
     
     <head>
@@ -15,10 +198,12 @@
     </head>
     
     <body>
-    
-    
-    
-    
+    <div class = "mainDiv">
+        <div class = "container">
+        
+        </div>
+        
+    </div>
     
     </body>
     
