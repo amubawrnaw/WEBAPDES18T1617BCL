@@ -1,11 +1,268 @@
 <html>
+    <style>
+        .bigDiv{
+            flex:auto;
+            display:flex;
+            flex-direction: column;
+            background-color: aquamarine;
+            position:relative;
+            width:95%;
+            height:90%;
+            overflow-y:auto;
+            padding-left: 5px;
+            padding-right: 5px;
+            padding-top: 2.5px;
+            padding-bottom: 2.5px;
+            flex-grow: 5px;
+            
+        }
+        .mainDiv{
+            display:flex;
+            flex-direction: column;
+            height:100%;
+            width:100%;
+            margin:5px;
+        }
+        .innerDiv{
+            display:flex;
+            flex-direction: column;
+            flex:auto;
+            background-color: beige;
+            height:auto;
+            flex-shrink: 0;
+        }
+        .thumbnailContainer{
+            margin: 5px;
+        }
+        .thumbnail{
+            
+        }
+        .innerContainer{
+            display:flex;
+            flex-direction: column;
+            flex:auto;
+            background-color: burlywood;
+            height:auto;
+            flex-shrink: 0;
+        }
+        .title{
+            
+        }
+        .username{
+            color:blue;
+        }
+        .albumName{
+            color:blue;
+        }
+        .albumId{
+            visibility: hidden;
+        }
+        .userId{
+            visibility: hidden;
+        }
+        .imageContainer{
+            display:flex;
+            flex-direction: row;
+        }
+        .image{
+            
+        }
+        .titleContainer{
+            display:flex;
+            flex-direction: row;
+        }
+        .nameContainer{
+            flex-direction: row;
+        }
+        .albumContainer{
+            flex-direction: row;
+        }
+        .imageId{
+            
+        }
+    
+    </style>
     
     <link rel="stylesheet" href="css.css">
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js" ></script>
     <script>
         var root = "https://jsonplaceholder.typicode.com";
-    
-    
+        var page = 0;
+        
+        $.get(root + "/photos",function(obj){
+            page = obj.length -1;
+            console.log("page set to obj length: " + page);
+        });
+        
+        $(document).ready(function(){
+            $.get(root + "/photos", function(obj){
+               addPosts(obj, 10);
+            });
+            
+            
+            $("#morePhotos").click(function(){
+                $.get(root + "/photos",function(obj){
+                    addPosts(obj, 10);
+                    console.log("pres");
+                });
+            });
+        });
+        
+        $(document).on('click', '.thumbnail', function(){
+            var $parent = $(this).parent().parent();
+            var imageId = $parent.children().children().last().text();
+            //if full image not yet shown, show it
+            if($parent.children().length == 1){
+                
+               showImage($parent,imageId);
+            }else{//else, hide the image
+                $parent.children().last().remove();
+            }
+        });
+        
+        $(document).on('click', '.username', function(){
+            var userId = $(this).parent().children().last().text();
+            window.open("profile.html?userId=" + userId);
+        });
+        
+        $(document).on('click', '.albumName', function(){
+            var albumId = $(this).parent().children().last().text();
+            var title = $(this).text;
+            window.open("album.html?id=" + albumId + "?name=" + title);
+        });
+        
+        function getAlbumName(albumId, name){
+            $.get(root + "/albums?id=" + albumId, function(obj){
+                name.html(obj[0].title);
+            });
+        }
+        
+        function getUser(val, userId, fn){
+            $.get(root + "/users?id=" + userId, function(obj){
+                fn(val, obj[0]);
+            });
+        }
+        
+        function getAlbum(val, albumId, fn){
+            $.get(root + "/albums?id=" + albumId, function(obj){
+                fn(val, obj[0]);
+            });
+        }
+        
+        function showImage($parent, imageId){
+            $.get(root + "/photos?id="+imageId, function(obj){
+                var jason = obj[0];//JSON object of the image
+                
+                var innerContainer = $("<div>");
+                innerContainer.addClass("innerContainer");
+                
+                var titleContainer = $("<div>");
+                titleContainer.addClass("titleContainer");
+                
+                var nameContainer = $("<div>");
+                nameContainer.addClass("nameContainer");
+                
+                var albumContainer = $("<div>");
+                albumContainer.addClass("albumContainer");
+                
+                var imageContainer = $("<div>");
+                imageContainer.addClass("imageContainer");
+                
+                var albumName = $("<div>");
+                albumName.addClass("albumName");
+                
+                var username = $("<div>");
+                username.addClass("username");
+                
+                var title = $("<div>");
+                title.addClass("title");
+                
+                var albumId = $("<div>");
+                albumId.addClass("albumId");
+                
+                var userId = $("<div>");
+                userId.addClass("userId");
+                
+                
+                title.html(jason.title);
+                
+                
+                getAlbumName(jason.albumId, albumName);
+                
+                
+                albumId.html(jason.albumId);
+                
+                //add username
+                getAlbum(username, jason.albumId, function(userId, obj){
+                    getUser(userId, obj.userId, function(userId, obj2){
+                       userId.html(obj2.name); 
+                    });
+                });
+                
+                //add userId
+                getAlbum(userId, jason.albumId, function(userId, obj){
+                   userId.html(obj.userId); 
+                });
+                
+                
+                imageContainer.append($("<img src = '" + jason.url + "' class = 'image'>"));
+                
+                
+                titleContainer.append(title);
+                
+                albumContainer.append($("<div>From: </div"));
+                albumContainer.append(albumName);
+                albumContainer.append(albumId);
+                
+                nameContainer.append($("<div>By: </div"));
+                nameContainer.append(username);
+                nameContainer.append(userId);
+                
+                
+                innerContainer.append(titleContainer);
+                innerContainer.append(albumContainer);
+                innerContainer.append(nameContainer);
+                innerContainer.append(imageContainer);
+                
+                $parent.append(innerContainer);
+                
+            });
+        }
+        
+        
+        function addPosts(obj, count){
+            var morePhotos = false;
+            for(var i = page;i > page - count && i >= 0 ; i--){
+                
+                var jason = obj[i];
+                morePhotos = true;
+                
+                var inner = $("<div>");
+                inner.addClass("innerDiv");
+                
+                var thumb = $("<div>");
+                thumb.addClass("thumbnailContainer");
+                
+                var imgId = $("<div>");
+                imgId.addClass("imageId");
+                
+                
+                imgId.html(jason.id);
+                
+                thumb.append("<img src = '" + jason.thumbnailUrl + "' class = 'thumbnail'>");
+                thumb.append(imgId);
+                
+                inner.append(thumb);
+                
+                $(".bigDiv").append(inner);
+            }
+            if(!morePhotos){
+                alert("No more photos to show!");
+            }
+            page-=count;
+        }
+        
+        
     </script>
     
     <head>
@@ -14,18 +271,14 @@
     </head>
     
     <body>
-        <button onclick = "location.href = 'main.html';" class = "buttons"> home </button>
-        <div class = "outerDiv">
-            <div class = "innerClass">
-                
+        <div class = "mainDiv">
+            <div class = "bigDiv">
             
             </div>
-        
-        
+            <div>
+                <button id = "morePhotos">Load more photos</button>
+            </div>
         </div>
-    
-    
-    
     
     </body>
     
