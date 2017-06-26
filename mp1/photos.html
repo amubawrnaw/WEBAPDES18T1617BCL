@@ -1,10 +1,15 @@
 <html>
+     <link rel="stylesheet" href="css.css">
     <style>
+        body{
+            background: radial-gradient(#F1F9FF,#D0E8DE);
+        }
         .bigDiv{
+            font-family: 'Raleway', sans-serif;
             flex:auto;
             display:flex;
             flex-direction: column;
-            background-color: aquamarine;
+            background-color: none;
             position:relative;
             width:95%;
             height:90%;
@@ -14,6 +19,7 @@
             padding-top: 2.5px;
             padding-bottom: 2.5px;
             flex-grow: 5px;
+            margin: 5px;
             
         }
         .mainDiv{
@@ -22,12 +28,15 @@
             height:100%;
             width:100%;
             margin:5px;
+            
         }
         .innerDiv{
             display:flex;
             flex-direction: column;
             flex:auto;
-            background-color: beige;
+            padding: 20px;
+            border-radius: 15px;
+           background: linear-gradient(to right,#FBFCE8,#FAEBD7);
             height:auto;
             flex-shrink: 0;
         }
@@ -35,24 +44,34 @@
             margin: 5px;
         }
         .thumbnail{
-            
+            cursor: pointer;
+        }
+        .thumbnail:hover{
+            box-shadow: 1px 1px;
         }
         .innerContainer{
             display:flex;
             flex-direction: column;
             flex:auto;
+            background: linear-gradient(#EFC998,#deb887);
             background-color: burlywood;
             height:auto;
             flex-shrink: 0;
-        }
-        .title{
+            margin: 5px;
+            padding: 15px;
+            border-radius: 5px;
             
         }
-        .username{
-            color:blue;
+        .title{
+            font-weight: bold;
         }
-        .albumName{
+        .username,.albumName{
             color:blue;
+            cursor: pointer;
+        }
+        .albumName:hover,.username:hover{
+                        text-decoration: underline;
+            color:#4444FF;
         }
         .albumId{
             visibility: hidden;
@@ -80,10 +99,38 @@
         .imageId{
             
         }
+        
+         #morePhotos, .buttons{
+            position: none;
+            cursor: pointer;
+            position: right;
+             float: left;
+            background-color: #4C7D55;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            padding: 8px 16px;
+            font-family: 'Raleway', sans-serif;
+            font-size: 12px;
+            top:40%;
+            left:40%;
+            margin-right: 15px;
+            text-align: center;
+            display: inline-block;
+            font-weight: bold;
+            transition-duration: 0.3s;
+        }
+
+
+        #morePhotos:hover, .buttons:hover{
+            background-color: #5D8E66;
+            box-shadow: 0 6px 8px 0 rgba(0,0,0,0.24), 0 11px 30px 0 rgba(0,0,0,0.19);
+
+        }
     
     </style>
     
-    <link rel="stylesheet" href="css.css">
+   
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js" ></script>
     <script>
         var root = "https://jsonplaceholder.typicode.com";
@@ -271,11 +318,13 @@
     </head>
     
     <body>
+        <img src="warudo.png">
         <div class = "mainDiv">
             <div class = "bigDiv">
             
             </div>
             <div>
+                <button onclick = "location.href = 'main.html';" class = "buttons">Home</button>
                 <button id = "morePhotos">Load more photos</button>
             </div>
         </div>
