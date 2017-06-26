@@ -1,6 +1,11 @@
 <html>
     <style>
+        
+        body {
+            background-color: aliceblue;
+        }
         .mainDiv{
+            font-family: 'Raleway', sans-serif;
             display:flex;
             flex-direction: column;
             height:95%;
@@ -10,31 +15,36 @@
             padding: 10px;
             overflow-y: auto;
             flex-shrink: 0;
+            
         }
         .container{
             height:auto;
             width:auto;
-            background-color: antiquewhite;
+            background: linear-gradient(#FBFCE8,#FAEBD7);
             margin-top: 10px;
             padding:10px;
             flex-shrink: 0;
+            border-radius: 15px;
         }
         .innerDiv{
             display:flex;
             flex-direction: column;
+            border-radius: 40px 10px 40px 10px;
             flex:auto;
-            background-color: bisque;
+            background: radial-gradient(to left,#ffe4c4,#FFF5D5);
             height:auto;
             flex-shrink: 0;
-            padding: 2px;
+            padding-left: 20px;
+            padding-top: 20px;
             margin: 5px;
+            box-shadow: 0 2px 2px 0 rgba(0,0,0,0.24), 0 11px 30px 0 rgba(0,0,0,0.19);
         }
         .thumbnailContainer{
             width:auto;
             height: auto;
         }
         .thumbnail{
-            
+            cursor: pointer;
         }
         .url{
             visibility: hidden;
@@ -48,14 +58,22 @@
             display:flex;
             flex-direction: column;
             flex:auto;
-            background-color: azure;
+            width: 650px;
+            background:radial-gradient(#F0FFFF,#E0EEEE);
             height:auto;
             flex-shrink: 0;
-            padding: 2px;
+            padding: 15px;
             margin: 5px;
+            border-radius: 10px;
         }
         .userName{
+            margin: 5px;
             color:blue;
+            cursor: pointer;
+        }
+        .username:hover{
+            text-decoration: underline;
+            color:#4444FF;
         }
         .fullImageContainer{
             width:auto;
@@ -69,6 +87,7 @@
         }
         
     
+        
     
     
     </style>
@@ -98,6 +117,7 @@
         albumTitle = decodeURI(albumTitle);
     
         $(document).ready(function(){
+
             $.get(root + "/photos?albumId=" + albumId, function(obj){
                 
                 for(var i = obj.length - 1 ; i >=0 ; i--){
@@ -197,6 +217,7 @@
     </head>
     
     <body>
+    <img src="warudo.png">
     <div class = "mainDiv">
         <div class = "container">
         
