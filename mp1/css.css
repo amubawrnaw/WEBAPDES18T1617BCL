@@ -1,11 +1,43 @@
-.buttons{
-    font-style: sans-serif;
-    font-family: "comic sans ms";
+.Up {
+	background-color: #FF2222;
+	border-radius: 5px;
+	width: 100%;
+	padding: 15px 7px;
+	position: absolute;
+	
+}
+
+.buttons {
+	float: right;
+}
+.buttons, #morePosts{
+	position: none;
+	cursor: pointer;
+	position: right;
+	background-color: #4C7D55;
+	border: none;
+	border-radius: 4px;
+	color: white;
+	padding: 15px 32px;
+    font-family: 'Raleway', sans-serif;
     font-size: 20px;
     top:40%;
     left:40%;
+	margin-right: 30px;
+	text-align: center;
+	display: inline-block;
     font-weight: bold;
+	transition-duration: 0.5s;
 }
+
+
+.buttons:hover ,#morePosts:hover{
+	
+	background-color: #5D8E66;
+box-shadow: 0 6px 8px 0 rgba(0,0,0,0.24), 0 11px 30px 0 rgba(0,0,0,0.19);
+
+}
+
 
 .outerDiv{
     
