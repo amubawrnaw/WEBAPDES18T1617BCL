@@ -1,39 +1,61 @@
 <html>
+    <link rel="stylesheet" href="css.css">
     <style>
+        body{
+            background: radial-gradient(#F1F9FF,#D0E8DE);
+        }
         .mainDiv{
+            font-family: 'Raleway', sans-serif;
             display:flex;
             flex-direction: column;
             height:95%;
             width:95%;
             margin:5px;
-            background-color: aliceblue;
+            
             padding: 10px;
             overflow-y: auto;
             flex-shrink: 0;
+            padding:10px;
+        }
+        
+        #head{
+
+            text-shadow: 2px 2px #888888;
+           
         }
         .profile{
             display:flex;
             flex-direction: column;
-            height:30%;
-            width:100%;
-            background-color: antiquewhite;
+            height:auto;
+            width:auto;
+            background: linear-gradient(#FBFCE8,#FAEBD7);
             margin-top: 10px;
             flex-shrink: 0;
+            padding:15px;
+            padding-left: 20px;
+            border-radius: 15px 15px 45px 45px;
+            box-shadow: 0 2px 4px 0 rgba(0,0,0,0.24), 0 5px 12px 0 rgba(0,0,0,0.19);
         }
         .posts{
             height:auto;
             width:auto;
-            background-color: antiquewhite;
+            background: linear-gradient(#FBFCE8,#FAEBD7);
             margin-top: 10px;
-            padding:10px;
+            padding:15px;
             flex-shrink: 0;
+            border-radius: 45px;
+            box-shadow: 0 2px 4px 0 rgba(0,0,0,0.24), 0 5px 12px 0 rgba(0,0,0,0.19);
         }
         .albums{
+            border-radius: 45px 45px 15px 15px ;
+            padding: 15px;
+            padding-left: 20px;
             height:auto;
-            width:100%;
-            background-color: antiquewhite;
+            width:97%;
+            background: linear-gradient(#FBFCE8,#FAEBD7);
             margin-top: 10px;
             flex-shrink: 0;
+            box-shadow: 0 2px 4px 0 rgba(0,0,0,0.24), 0 5px 12px 0 rgba(0,0,0,0.19);
         }
         
         .address{
@@ -73,11 +95,15 @@
             display:flex;
             flex-direction: column;
             flex:auto;
-            background-color: bisque;
+            background: linear-gradient(to left,#ffe4c4,#FFF5D5);
+
             height:auto;
             flex-shrink: 0;
-            padding: 2px;
+            padding: 10px;
             margin: 5px;
+            border-radius: 20px;
+            box-shadow: 0 2px 4px 0 rgba(0,0,0,0.24);
+            
         }
         .title{
             font-size:20px;
@@ -88,23 +114,23 @@
         .showAll{
             margin: 5px;
         }
-        #postButton{
+        #postButton,#albumButton{
             border:none;
             background:none;
             color:blue;
             float:right;
+            cursor: pointer;
         }
-        #albumButton{
-            border:none;
-            background:none;
-            color:blue;
-            float:right;
+        
+        #postButton:hover,#albumButton:hover{
+            text-decoration: underline;
+            color:#4444FF;
         }
         .album{
             height:auto;
             width:auto;
-            background-color: antiquewhite;
-            margin-top: 10px;
+            background-color: none;
+            margin-top: 5px;
             padding:10px;
         }
         .albumId{
@@ -113,12 +139,38 @@
         .albumTitle{
             color:blue;
             font-size: 20px;
+            cursor: pointer;
+
+        }
+        .albumTitle:hover{
+                        text-decoration: underline;
+            color:#4444FF;
         }
         
+        .buttons{
+            position: none;
+            cursor: pointer;
+            float: left;
+            width: 6%;
+            text-align: center;
+            background-color: #4C7D55;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            padding: 8px 16px;
+            font-family: 'Raleway', sans-serif;
+            font-size: 12px;
+            margin-left: 10px;
+            bottom: 10px;
+            display: inline-block;
+            font-weight: bold;
+            transition-duration: 0.3s;
+        }
+
     </style>
     
     
-    <link rel="stylesheet" href="css.css">
+    
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js" ></script>
     <script>
         var root = "https://jsonplaceholder.typicode.com";
@@ -238,7 +290,7 @@
         }); 
     
             
-        $(document).on('click', ".albumTitle", function(){
+       $(document).on('click', ".albumTitle", function(){
             var obj = $(this).parent().find(".albumId").text();
             var title = $(this).text();
             window.open("album.html?id=" + obj + "?name=" + title);
@@ -253,8 +305,13 @@
     </head>
     
     <body>
+        
+
+    <img src="warudo.png">
     <div class = "mainDiv">
+        <h1 id="head">Profile</h1>
         <div class = "profile">
+
             <div class = "username"></div>
             <div class = "name"></div>
             <div class = "phone"></div>
@@ -287,8 +344,10 @@
         <div class = "showAll">
             <button id = "albumButton">View All</button>
         </div>
+        
+        
     </div>
-    
+    <button onclick = "location.href = 'main.html';" class = "buttons">Home</button>
     
     </body>
     
