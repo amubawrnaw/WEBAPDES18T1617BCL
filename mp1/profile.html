@@ -240,7 +240,8 @@
             
         $(document).on('click', ".albumTitle", function(){
             var obj = $(this).parent().find(".albumId").text();
-            window.open("album.html?id=" + obj);
+            var title = $(this).text();
+            window.open("album.html?id=" + obj + "?name=" + title);
         });
         
         
