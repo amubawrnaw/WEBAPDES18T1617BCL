@@ -64,6 +64,9 @@
         .fullImage{
             
         }
+        .title{
+            
+        }
         
     
     
@@ -171,25 +174,21 @@
                 var container = $("<div>");
                 container.addClass("fullImageContainer");
                 
+                var title = $("<div>");
+                title.addClass("title");
+                
                 container.append($("<img src = '" + jason.url + "' class = 'fullImage'>"));
                 
+                title.html(jason.title);
                 getUser(userId, username);
                 
+                newImage.append(title);
                 newImage.append(container);
                 newImage.append(username);
                 
                 $parent.append(newImage);
             });
-            
-            
-            
-            
-            
         }
-        
-        
-        
-        
     </script>
     
     <head>
