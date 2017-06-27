@@ -3,14 +3,14 @@
     <style>
         
         body {
-            background: radial-gradient(#6EEEC3,#7FFFD4);
+            background: radial-gradient(#F1F9FF,#D0E8DE);
         }
         #bigDiv{
             font-family: 'Raleway', sans-serif;
             flex:auto;
             display:flex;
             flex-direction: column;
-            background: linear-gradient(#7FFFD4,#6EEEC3);
+            background: background: radial-gradient(#F1F9FF,#D0E8DE);
 			margin-bottom:10px;
             position:relative;
             width:95%;
@@ -106,6 +106,50 @@
 
         }
 		
+         .superDiv {
+            display: flex;
+            width: 100%;
+        }
+  .ulo {
+      
+  position: relative;
+  width: 30%;
+}
+
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.patong {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 100%;
+  background-color: #D0E8DE;
+  overflow: hidden;
+  width: 0;
+  height: 100%;
+  transition: .5s ease;
+}
+
+.ulo:hover .patong {
+  width: 100%;
+  right: 0;
+}
+
+.text {
+  white-space: nowrap; 
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  overflow: hidden;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
 
     </style>
     
@@ -202,7 +246,23 @@
     </head>
     
     <body>
-       <img src="warudo.png", id ="pic">
+       <div class="superDiv">
+  
+    
+    <div class="ulo">
+      <a href="main.html">
+        <img src="warudo.png" class = "image" alt="avatar">
+        
+       
+    <div class="patong">
+        <img class="text" src="home.png" width="80%">
+
+    </div>
+          </a>
+        </div>
+         
+        <img src="post.png" height="60px" style="position:absolute; margin-left:70%; margin-top: 15;">
+        </div>
         <div class = "mainDiv">
 
                 
@@ -211,7 +271,7 @@
 
             </div>
             <div>
-                <button onclick = "location.href = 'main.html';" class = "buttons">Home</button>
+
                 <button id = "morePosts">Load More Posts</button>
                 
             
