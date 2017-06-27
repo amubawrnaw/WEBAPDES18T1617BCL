@@ -1,5 +1,5 @@
 <html>
-    <link rel="stylesheet" href="css.css">
+<!--    <link rel="stylesheet" href="css.css">-->
     <style>
         body{
             background: radial-gradient(#F1F9FF,#D0E8DE);
@@ -166,7 +166,51 @@
             font-weight: bold;
             transition-duration: 0.3s;
         }
+        
+        .superDiv {
+            display: flex;
+            width: 100%;
+        }
+  .ulo {
+      
+  position: relative;
+  width: 30%;
+}
 
+.image {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.patong {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 100%;
+  background-color: #D0E8DE;
+  overflow: hidden;
+  width: 0;
+  height: 100%;
+  transition: .5s ease;
+}
+
+.ulo:hover .patong {
+  width: 100%;
+  right: 0;
+}
+
+.text {
+  white-space: nowrap; 
+  color: white;
+  font-size: 20px;
+  position: absolute;
+  overflow: hidden;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+}
     </style>
     
     
@@ -307,9 +351,25 @@
     <body>
         
 
-    <img src="warudo.png">
+    <div class="superDiv">
+  
+    
+    <div class="ulo">
+      <a href="main.html">
+        <img src="warudo.png" class = "image" alt="avatar">
+        
+       
+    <div class="patong">
+        <img class="text" src="home.png" width="80%">
+
+    </div>
+          </a>
+        </div>
+         
+        <img src="profile.png" height="60px" style="position:absolute; margin-left:64%; margin-top: 15;">
+        </div>
     <div class = "mainDiv">
-        <h1 id="head">Profile</h1>
+        
         <div class = "profile">
 
             <div class = "username"></div>
